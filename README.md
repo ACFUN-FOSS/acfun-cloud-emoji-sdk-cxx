@@ -13,7 +13,7 @@ auto stdJson = AcfunCloudEmoji::getEmojiJson("10845128");
 auto stdStruct = AcfunCloudEmoji::getEmojiStruct("10845128");
 ```
 
-[AcFun 直播间「云表情」企划](https://github.com/MiegoLive/AcfunCloudEmoji/) C++ SDK。从用户文章中提取云表情数据，并输出为结构体或 JSON。
+[AcFun 直播间「云表情」企划](https://github.com/MiegoLive/AcfunCloudEmoji/) 现代 C++（C++23） SDK。从用户文章中提取云表情数据，并输出为规范化结构体或 JSON。
 
 | 同步 | 异步 | 协程 |
 |-------|-------|-------|
