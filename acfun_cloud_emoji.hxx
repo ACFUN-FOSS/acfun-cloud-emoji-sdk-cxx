@@ -115,6 +115,11 @@ namespace coro = concurrencpp;
 template <typename T>
 using Rc = std::shared_ptr<T>;
 
+/**
+ * @brief 设置协程环境
+ * @param runtime 协程运行时
+ * @param executor 协程执行器
+ */
 ACEAPI void setupCoroEnv(coro::runtime &runtime, const Rc<coro::executor>& executor);
 
 /**
