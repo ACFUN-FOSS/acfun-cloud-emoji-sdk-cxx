@@ -59,7 +59,7 @@ ACEAPI std::string getEmojiJson(std::string_view uid);
 /**
  * @brief 设置协程环境
  * @param runtime 协程运行时
- * @param executor 协程执行器
+ * @param executor ui 线程或主线程的协程执行器
  */
 ACEAPI void setupCoroEnv(coro::runtime &runtime, const Rc<coro::executor>& executor);
 
@@ -129,7 +129,7 @@ void myWindowOnGetCloudEmojiBtn() {
 }
 
 void myWindowOnDraw(){
-    ui->loop_once();
+    uiThreadExecutor->loop_once();
 }
 
 ```
