@@ -1,0 +1,116 @@
+cmake_minimum_required(VERSION 3.22)
+cmake_policy(SET CMP0003 NEW)
+include(GenerateExportHeader)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+set(BUILD_TEST ${PROJECT_IS_TOP_LEVEL})
+
+# download CPM.cmake
+file(
+	DOWNLOAD
+	https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.8/CPM.cmake
+	${CMAKE_CURRENT_BINARY_DIR}/cmake/CPM.cmake
+	EXPECTED_HASH SHA256=78ba32abdf798bc616bab7c73aac32a17bbd7b06ad9e26a6add69de8f3ae4791
+)
+include(${CMAKE_CURRENT_BINARY_DIR}/cmake/CPM.cmake)
+
+####################
+# Dependencies A: Must provide by user
+####################
+
+if(NOT TARGET cpr::cpr)
+	find_package(cpr CONFIG REQUIRED)
+endif()
+
+if(BUILD_TEST)
+	if(NOT TARGET GTest::gtest)
+		find_package(GTest CONFIG REQUIRED)
+	endif()
+endif()
+
+####################
+# Dependencies B: Fetch if not found
+####################
+# 1. Generate some message
+find_package(nlohmann_json CONFIG)
+find_package(reflectcpp CONFIG)
+find_package(concurrencpp CONFIG)
+set(BDEPS_TO_BUILD_MYSELF)
+
+if(NOT TARGET nlohmann_json::nlohmann_json AND NOT ${nlohmann_json_FOUND})
+	list(APPEND BDEPS_TO_BUILD_MYSELF nlohmann_json)
+endif()
+if(NOT TARGET reflectcpp::reflectcpp AND NOT ${reflectcpp_FOUND})
+	list(APPEND BDEPS_TO_BUILD_MYSELF reflectcpp)
+endif()
+if(NOT TARGET concurrencpp::concurrencpp AND NOT ${concurrencpp_FOUND})
+	list(APPEND BDEPS_TO_BUILD_MYSELF concurrencpp)
+endif()
+
+if(BDEPS_TO_BUILD_MYSELF)
+	message(WARNING "The following dependencies are failed to find with `find_pacakge`, I'm going to build by myself: \n${BDEPS_TO_BUILD_MYSELF}")
+endif()
+
+# Suggested user to fetch dependencies with vcpkg, if vcpkg is using in the building
+if(VCPKG_TARGET_TRIPLET)
+	if(BDEPS_TO_BUILD_MYSELF)
+		message(WARNING "You're using vcpkg. It is recommend to get these with vcpkg.")
+	endif()
+endif()
+
+# 2. Find or fetch
+if(NOT TARGET nlohmann_json::nlohmann_json)
+	CPMAddPackage(
+		NAME nlohmann_json
+		GIT_REPOSITORY "https://github.com/nlohmann/json.git"
+		VERSION 3.12.0
+		OPTIONS "JSON_BuildTests OFF"
+	)
+endif()
+
+if(NOT TARGET reflectcpp::reflectcpp)
+	CPMAddPackage(
+		NAME reflectcpp 
+		GIT_REPOSITORY "https://github.com/getml/reflect-cpp.git"
+		VERSION 0.20.0
+		OPTIONS
+		"REFLECTCPP_ALL_FORMATS OFF"
+		#"REFLECTCPP_USE_STD_EXPECTED ON"
+	)
+endif()
+
+if(NOT TARGET concurrencpp::concurrencpp)
+	CPMAddPackage(
+		NAME concurrencpp 
+		GIT_REPOSITORY "https://github.com/David-Haim/concurrencpp.git"
+		GIT_TAG develop
+	)
+endif()
+
+
+####################
+# Targets
+####################
+add_library(AcfunCloudEmoji "acfun_cloud_emoji.cxx" "acfun_cloud_emoji.hxx")
+target_compile_options(AcfunCloudEmoji PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+target_compile_options(AcfunCloudEmoji PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+generate_export_header(AcfunCloudEmoji EXPORT_MACRO_NAME ACEAPI)
+target_include_directories(AcfunCloudEmoji PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(AcfunCloudEmoji
+	PUBLIC
+	concurrencpp::concurrencpp
+	PRIVATE
+	cpr::cpr
+	nlohmann_json::nlohmann_json
+	reflectcpp::reflectcpp
+)
+add_library(AcfunFoss::AcfunCloudEmoji ALIAS AcfunCloudEmoji)
+
+if(BUILD_TEST)
+	add_executable(test test.cxx)
+	target_compile_options(test PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+	target_compile_options(test PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+	target_link_libraries(test PRIVATE AcfunCloudEmoji GTest::gtest)
+endif()

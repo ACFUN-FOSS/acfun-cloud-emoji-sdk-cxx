@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "configurePresets": [
+    {
+      "name": "develop",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/BUILD",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_BUILD_TYPE": "Debug",
+		"CMAKE_INSTALL_PREFIX": "E:/minecraft",
+		"BUILD_SHARED_LIBS": true
+      }
+    }
+  ]
+}

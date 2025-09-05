@@ -1,0 +1,15 @@
+{
+  "name": "acfun-cloud-emoji-sdk",
+  "version": "1.0.0",
+  "description": "AcFun 云表情企划 C++ SDK",
+  "homepage": "https://github.com/MicrosoftDocs/vcpkg-docs/tree/cmake-sample-lib",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": [
+    "concurrencpp",
+    "cpr",
+    "gtest",
+    "nlohmann-json",
+    "reflectcpp",
+    "ms-gsl"
+  ]
+}

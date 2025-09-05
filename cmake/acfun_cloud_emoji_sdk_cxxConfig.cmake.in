@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(cpr CONFIG REQUIRED)
+find_dependency(nlohmann_json CONFIG REQUIRED)
+find_dependency(reflectcpp CONFIG REQUIRED)
+find_dependency(concurrencpp CONFIG REQUIRED)
+
+include("${CMAKE_CURRENT_LIST_DIR}/acfun_cloud_emoji_sdk_cxxTargets.cmake")
