@@ -8,8 +8,9 @@ find_package(acfun_cloud_emoji_sdk_cxx CONFIG REQUIRED)
 target_link_libraries(myapp PRIVATE acfunfoss::acfun_cloud_emoji_sdk_cxx)
 ```
 ```c++
-auto stdJson = getEmojiJson("10845128");
-auto stdStruct = getEmojiStruct("10845128");
+using namespace AcfunFoss;
+auto stdJson = AcfunCloudEmoji::getEmojiJson("10845128");
+auto stdStruct = AcfunCloudEmoji::getEmojiStruct("10845128");
 ```
 
 [AcFun 直播间「云表情」企划](https://github.com/MiegoLive/AcfunCloudEmoji/) C++ SDK。从用户文章中提取云表情数据，并输出为结构体或 JSON。
