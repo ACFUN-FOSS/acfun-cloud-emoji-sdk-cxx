@@ -92,8 +92,7 @@ ACEAPI coro::lazy_result<std::string> getEmojiJsonCoro(std::string_view uid);
 ### 同步使用
 
 ```cpp
-#include <iostream>
-#include "acfun_cloud_emoji.hxx"
+#include <acfun_foss/acfun_cloud_emoji_sdk_cxx/acfun_cloud_emoji.hxx>
 
 using namespace AcfunFoss::AcfunCloudEmoji;
 
