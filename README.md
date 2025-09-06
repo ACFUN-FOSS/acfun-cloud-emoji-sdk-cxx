@@ -106,7 +106,7 @@ int main() {
 
 ```cpp
 #include <concurrencpp/concurrencpp.h>
-#include "acfun_cloud_emoji.hxx"
+#include <acfun_foss/acfun_cloud_emoji_sdk_cxx/acfun_cloud_emoji.hxx>
 
 using namespace AcfunFoss::AcfunCloudEmoji;
 namespace coro = concurrencpp;
