@@ -8,6 +8,7 @@ find_package(acfun_cloud_emoji_sdk_cxx CONFIG REQUIRED)
 target_link_libraries(myapp PRIVATE acfunfoss::acfun_cloud_emoji_sdk_cxx)
 ```
 ```c++
+#include <acfun_foss/acfun_cloud_emoji_sdk_cxx/acfun_cloud_emoji.hxx>
 using namespace AcfunFoss;
 auto stdJson = AcfunCloudEmoji::getEmojiJson("10845128");
 auto stdStruct = AcfunCloudEmoji::getEmojiStruct("10845128");
