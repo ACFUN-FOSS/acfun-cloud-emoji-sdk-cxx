@@ -121,12 +121,10 @@ int main() {
 }
 
 void myWindowOnGetCloudEmojiBtn() {
-    [&](){
-        [=]() -> coro::result<void> {
-            auto json = co_await getEmojiJsonCoro("10845128");
-            // .....
-        }();
-    }();
+	[&]() -> coro::result<void> {
+		auto json = co_await getEmojiJsonCoro("10845128");
+		// .....
+	}();
 }
 
 void myWindowOnDraw(){
