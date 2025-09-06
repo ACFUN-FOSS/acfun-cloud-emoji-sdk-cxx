@@ -26,8 +26,6 @@ auto stdStruct = AcfunCloudEmoji::getEmojiStruct("10845128");
 
 
 
-
-
 ## API 一览（`acfun_cloud_emoji.hxx`）
 
 ### 同步 API：
